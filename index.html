@@ -1,204 +1,254 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SchuimKraagFM - Stereo & RDS</title>
-  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=" /> <!-- placeholder favicon -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SchimKraagFM - Stereo & RDS</title>
+<link rel="icon" href="https://i.imgur.com/lq7ZXuE.png" type="image/png" />
 
-  <style>
-    :root {
-      --brons: #cd7f32;
-      --koper: #b87333;
-      --lichtbruin: #f5e6d3;
-      --donkerbruin: #7b4b2a;
-      --wit: #fffdf9;
-    }
+<!-- Font Awesome via jsDelivr -->
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css" rel="stylesheet">
 
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: var(--lichtbruin);
-      color: var(--donkerbruin);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+<!-- SEO -->
+<meta name="description" content="SchuimkraagFM">
+<meta name="keywords" content="SchuimkraagFM">
+<meta name="author" content="SchuimkraagFM">
+<meta name="robots" content="index, follow">
 
-    header {
-      width: 100%;
-      background: var(--brons);
-      padding: 1em 0;
-      text-align: center;
-      position: sticky;
-      top: 0;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      z-index: 1000;
-    }
+<!-- Open Graph -->
+<meta property="og:title" content="SchuimkraagFM">
+<meta property="og:description" content="Luister naar SchuimkraagFM.">
+<meta property="og:image" content="https://i.imgur.com/lq7ZXuE.png">
+<meta property="og:url" content="https://schuimkraagfm.nl">
+<meta property="og:type" content="website">
 
-    main {
-      flex: 1;
-      padding: 2em;
-      text-align: center;
-      width: 100%;
-      max-width: 600px;
-    }
+<style>
+:root {
+--brons: #d4a373;
+--lichtbruin: #e6ccb2;
+--donkerbruin: #8b5e3c;
+--wit: #fffdf9;
+}
 
-    h1 {
-      font-size: 2.2em;
-      margin: 0.5em 0;
-    }
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
 
-    .player {
-      background: var(--wit);
-      border-radius: 10px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-      padding: 2em;
-      margin-top: 2em;
-      animation: fadeIn 2s ease;
-    }
+body {
+font-family: 'Segoe UI', sans-serif;
+background: var(--lichtbruin);
+color: var(--donkerbruin);
+display: flex;
+flex-direction: column;
+align-items: center;
+min-height: 100vh;
+overflow-x: hidden;
+}
 
-    .player button, .player input[type="range"] {
-      margin-top: 1em;
-      padding: 0.5em 1em;
-      font-size: 1em;
-      border: none;
-      border-radius: 5px;
-      background: var(--brons);
-      color: white;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
+.background {
+position: fixed;
+top: 0;
+left: 0;
+width: 100vw;
+height: 100vh;
+background: url('https://i.imgur.com/BAk9Smh.jpeg') no-repeat center center / cover;
+filter: blur(10px) brightness(0.8);
+z-index: -1;
+}
 
-    .player button:hover {
-      background: var(--koper);
-    }
+header {
+width: 100%;
+text-align: center;
+background: var(--brons);
+padding: 1em;
+box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+position: sticky;
+top: 0;
+z-index: 10;
+}
 
-    .cookie-banner {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      background: var(--brons);
-      color: white;
-      padding: 1em;
-      text-align: center;
-      z-index: 10000;
-      display: none;
-    }
+header img {
+width: 120px;
+animation: floatLogo 4s ease-in-out infinite;
+}
 
-    .cookie-banner button {
-      background: var(--donkerbruin);
-      border: none;
-      padding: 0.5em 1em;
-      margin-left: 1em;
-      color: white;
-      border-radius: 4px;
-      cursor: pointer;
-    }
+@keyframes floatLogo {
+0%, 100% { transform: translateY(0); }
+50% { transform: translateY(-10px); }
+}
 
-    .background {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      background: repeating-linear-gradient(
-        45deg,
-        var(--koper),
-        var(--koper) 10px,
-        var(--lichtbruin) 10px,
-        var(--lichtbruin) 20px
-      );
-      opacity: 0.03;
-      z-index: -1;
-    }
+main {
+flex: 1;
+width: 100%;
+max-width: 500px;
+margin: 2em auto;
+text-align: center;
+padding: 2em;
+background-color: rgba(255, 253, 249, 0.95);
+border-radius: 12px;
+box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+animation: fadeIn 1s ease;
+}
 
-    footer {
-      background: var(--brons);
-      width: 100%;
-      text-align: center;
-      padding: 1em;
-      color: white;
-    }
+h1 {
+font-size: 2.2em;
+margin-bottom: 0.5em;
+}
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+.player {
+margin-top: 1.5em;
+}
 
-    @media (max-width: 600px) {
-      .player {
-        padding: 1em;
-      }
+.player button,
+.player input[type="range"] {
+margin-top: 1em;
+padding: 0.6em 1.2em;
+font-size: 1em;
+border: none;
+border-radius: 6px;
+background: var(--brons);
+color: white;
+cursor: pointer;
+transition: background 0.3s;
+}
 
-      h1 {
-        font-size: 1.5em;
-      }
-    }
-  </style>
+.player button i {
+margin-right: 0.5em;
+}
+
+.player button:hover {
+background: var(--donkerbruin);
+}
+
+.cookie-banner {
+position: fixed;
+bottom: 0;
+left: 0;
+right: 0;
+background: var(--brons);
+color: white;
+padding: 1em;
+text-align: center;
+z-index: 9999;
+display: none;
+}
+
+.cookie-banner button {
+background: var(--donkerbruin);
+border: none;
+padding: 0.5em 1em;
+margin-left: 1em;
+color: white;
+border-radius: 4px;
+cursor: pointer;
+}
+
+footer {
+background: var(--brons);
+width: 100%;
+text-align: center;
+padding: 1em;
+color: white;
+margin-top: auto;
+}
+
+@keyframes fadeIn {
+from { opacity: 0; transform: translateY(20px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+header img {
+width: 80px;
+}
+
+main {
+margin: 1em;
+padding: 1.5em;
+}
+
+h1 {
+font-size: 1.5em;
+}
+}
+</style>
 </head>
 <body>
-  <div class="background"></div>
+<div class="background" aria-hidden="true"></div>
 
-  <header>
-    <!-- Leeg, geen logo meer -->
-  </header>
+<header>
+<img src="https://i.imgur.com/lq7ZXuE.png" alt="SchuimkraagFM logo" loading="lazy">
+</header>
 
-  <main>
-    <h1>Luisteren Naar SchuimKraagFM!</h1>
-    <div class="player">
-      <audio id="radioPlayer">
-        <source src="YOUR_STREAM_URL_HERE" type="audio/mpeg">
-        Je browser ondersteunt dit audioformaat niet.
-      </audio>
-      <div>
-        <button onclick="togglePlay()" id="playBtn">▶️ Afspelen</button>
-      </div>
-      <div>
-        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1" />
-      </div>
-    </div>
-  </main>
+<main>
+<h1>Luisteren Naar SchuimKraagFM!</h1>
+<div class="player">
+<audio id="radioPlayer" preload="none">
+<source src="YOUR_STREAM_URL_HERE" type="audio/mpeg">
+Je browser ondersteunt dit audioformaat niet.
+</audio>
+<div>
+<button onclick="togglePlay()" id="playBtn">
+<i class="fas fa-play"></i> Afspelen
+</button>
+</div>
+<div>
+<input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1" aria-label="Volume slider">
+</div>
+</div>
+</main>
 
-  <footer>
-    &copy; SchuimKraagFM - Stereo & RDS
-  </footer>
+<footer>
+&copy; SchuimkraagFM - Stereo & RDS
+</footer>
 
-  <div class="cookie-banner" id="cookieBanner">
-    Deze website gebruikt cookies, voor een betere luister ervaring!
-    <button onclick="acceptCookies()">Akkoord</button>
-  </div>
+<div class="cookie-banner" id="cookieBanner">
+Deze website gebruikt cookies voor een betere luister ervaring!
+<button onclick="acceptCookies()">Akkoord</button>
+</div>
 
-  <script>
-    const player = document.getElementById("radioPlayer");
-    const playBtn = document.getElementById("playBtn");
-    const volumeSlider = document.getElementById("volumeSlider");
+<script>
+const player = document.getElementById("radioPlayer");
+const playBtn = document.getElementById("playBtn");
+const volumeSlider = document.getElementById("volumeSlider");
 
-    function togglePlay() {
-      if (player.paused) {
-        player.play();
-        playBtn.textContent = "⏸️ Pauzeer";
-      } else {
-        player.pause();
-        playBtn.textContent = "▶️ Afspelen";
-      }
-    }
+// Herstel volume bij laden
+window.addEventListener("load", () => {
+if (!localStorage.getItem("cookiesAccepted")) {
+document.getElementById("cookieBanner").style.display = "block";
+}
 
-    volumeSlider.addEventListener("input", () => {
-      player.volume = volumeSlider.value;
-    });
+const savedVolume = localStorage.getItem("radioVolume");
+if (savedVolume !== null) {
+player.volume = savedVolume;
+volumeSlider.value = savedVolume;
+}
+});
 
-    function acceptCookies() {
-      localStorage.setItem("cookiesAccepted", "yes");
-      document.getElementById("cookieBanner").style.display = "none";
-    }
+function togglePlay() {
+if (player.paused) {
+player.play().then(() => {
+playBtn.innerHTML = '<i class="fas fa-pause"></i> Pauzeer';
+}).catch(err => {
+alert("Kan stream niet starten: " + err.message);
+});
+} else {
+player.pause();
+playBtn.innerHTML = '<i class="fas fa-play"></i> Afspelen';
+}
+}
 
-    window.addEventListener("load", () => {
-      if (!localStorage.getItem("cookiesAccepted")) {
-        document.getElementById("cookieBanner").style.display = "block";
-      }
-    });
-  </script>
+volumeSlider.addEventListener("input", () => {
+player.volume = volumeSlider.value;
+localStorage.setItem("radioVolume", volumeSlider.value);
+});
+
+function acceptCookies() {
+localStorage.setItem("cookiesAccepted", "true");
+document.getElementById("cookieBanner").style.display = "none";
+}
+</script>
 </body>
 </html>
