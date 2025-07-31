@@ -4,13 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SchuimkraagFM</title>
-  <link rel="icon" type="image/png" href="https://i.imgur.com/XmCKe9H.png" />
+  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=" /> <!-- placeholder favicon -->
+
   <style>
-    /* Kleuren & thema */
     :root {
-      --brons: #d4a373;
-      --lichtbruin: #e6ccb2;
-      --donkerbruin: #8b5e3c;
+      --brons: #cd7f32;
+      --koper: #b87333;
+      --lichtbruin: #f5e6d3;
+      --donkerbruin: #7b4b2a;
       --wit: #fffdf9;
     }
 
@@ -22,25 +23,35 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
       min-height: 100vh;
       overflow-x: hidden;
     }
 
     header {
       width: 100%;
-      text-align: center;
       background: var(--brons);
-      padding: 1em;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      padding: 1em 0;
+      text-align: center;
       position: sticky;
       top: 0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       z-index: 1000;
     }
 
-    header img {
+    .logo-placeholder {
       width: 120px;
+      height: 120px;
+      margin: 0 auto;
+      border-radius: 50%;
+      background: linear-gradient(145deg, var(--koper), var(--brons));
       animation: floatLogo 4s ease-in-out infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 1.2em;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
     }
 
     @keyframes floatLogo {
@@ -50,8 +61,10 @@
 
     main {
       flex: 1;
-      text-align: center;
       padding: 2em;
+      text-align: center;
+      width: 100%;
+      max-width: 600px;
     }
 
     h1 {
@@ -62,10 +75,9 @@
     .player {
       background: var(--wit);
       border-radius: 10px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
       padding: 2em;
-      max-width: 400px;
-      margin: 2em auto;
+      margin-top: 2em;
       animation: fadeIn 2s ease;
     }
 
@@ -82,7 +94,7 @@
     }
 
     .player button:hover {
-      background: var(--donkerbruin);
+      background: var(--koper);
     }
 
     .cookie-banner {
@@ -108,14 +120,18 @@
     }
 
     .background {
-      background-image: url('https://imgur.com/a/TD3Ai5z');
-      background-size: cover;
-      background-position: center;
-      position: absolute;
+      position: fixed;
       top: 0; left: 0;
       width: 100%;
       height: 100%;
-      opacity: 0.1;
+      background: repeating-linear-gradient(
+        45deg,
+        var(--koper),
+        var(--koper) 10px,
+        var(--lichtbruin) 10px,
+        var(--lichtbruin) 20px
+      );
+      opacity: 0.03;
       z-index: -1;
     }
 
@@ -134,7 +150,6 @@
 
     @media (max-width: 600px) {
       .player {
-        margin: 1em;
         padding: 1em;
       }
 
@@ -142,20 +157,23 @@
         font-size: 1.5em;
       }
 
-      header img {
+      .logo-placeholder {
         width: 80px;
+        height: 80px;
+        font-size: 0.9em;
       }
     }
   </style>
 </head>
 <body>
   <div class="background"></div>
+
   <header>
-    <img src="https://imgur.com/a/BctAD6R" alt="SchuimkraagFM logo">
+    <div class="logo-placeholder">Schuim<br>FM</div>
   </header>
 
   <main>
-    <h1>Luisteren Naar SchuimKraagFM!</h1>
+    <h1>Luister naar SchuimkraagFM</h1>
     <div class="player">
       <audio id="radioPlayer">
         <source src="YOUR_STREAM_URL_HERE" type="audio/mpeg">
@@ -165,17 +183,17 @@
         <button onclick="togglePlay()" id="playBtn">▶️ Afspelen</button>
       </div>
       <div>
-        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
+        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1" />
       </div>
     </div>
   </main>
 
   <footer>
-    &copy; SchuimkraagFM - Stereo & RDS
+    &copy; SchuimkraagFM – Stereo & RDS
   </footer>
 
   <div class="cookie-banner" id="cookieBanner">
-    Deze website gebruikt cookies, voor een betere luister ervaring
+    Deze website gebruikt cookies voor een betere luisterervaring
     <button onclick="acceptCookies()">Akkoord</button>
   </div>
 
@@ -198,7 +216,6 @@
       player.volume = volumeSlider.value;
     });
 
-    // Cookie banner
     function acceptCookies() {
       localStorage.setItem("cookiesAccepted", "yes");
       document.getElementById("cookieBanner").style.display = "none";
